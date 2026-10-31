@@ -24,21 +24,7 @@ DuckDB-WASM loads a Parquet dataset straight into the browser and runs SQL analy
 
 ## 🏗️ Architecture
 
-```
-public/data/flood_control_cleaned.parquet
-              │  fetched once
-              ▼
-   ┌───────────────────────────┐
-   │  DuckDB-WASM (in browser) │  ← DuckDBContext
-   └─────────────┬─────────────┘
-                 │  SQL (GROUP BY, filters, aggregates)
-     ┌───────────┼─────────────┬──────────────┐
-     ▼           ▼             ▼              ▼
- useKpiSummary useRegionSummary useYearlySummary useTypeSummary
-     │           │             │              │
-     ▼           ▼             ▼              ▼
-  KpiCards  RegionBarChart  YearLineChart  TypePieChart   (Recharts)
-```
+<p align="center"><img src="docs/architecture.svg" alt="Architecture diagram" width="100%"/></p>
 
 - **`src/context/DuckDBContext.tsx`** boots DuckDB-WASM, registers the Parquet file as a `projects` table, and exposes a `query()` helper
 - **`src/hooks/*`** has one hook per visualization. Each builds a filtered SQL query and returns typed rows
